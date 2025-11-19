@@ -737,4 +737,7 @@ The Mental Health Crisis Affecting College Students Is A Solvable Problem. Machi
 
 <img src="/img/CorrelationMatrix.png" />
 <img src="/img/DecisionTree.png" />
+<img src="/img/FeatureImportanceComparison.png" />
 <img src="/img/ImportanceScore.png" />
+<img src="/img/ModelAccuracyComparison.png" />
+<img src="/img/PrecisionRecallF1Comparison.png" />
