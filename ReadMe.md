@@ -2,9 +2,9 @@
 
 ## ABSTRACT
 
-This Monumental Research Project Rigorously Investigates The Computational Feasibility Of Detecting, Classifying, & Predicting Academic Stress States Among Higher Education Students By Leveraging **Non-Invasive Digital Behavior Signals (Dbs)**. Moving Beyond Archaic, Self-Reported Psychometrics Which Suffer From Retrospective Recall Bias, We Analyzed A Complex Matrix Of Behavioral Features—Including **ProcrastinationLevel**, **HealthIndex**, & **DigitalInteraction**—To Construct A Predictive Phenotype Of Student Distress. The Dataset Was Processed Using Advanced Python Libraries Including Pandas, Scikit-Learn, & Natural Language Processing (Nlp) Techniques.
+This Monumental Research Project Rigorously Investigates The Computational Feasibility Of Detecting, Classifying, & Predicting Academic Stress States Among Higher Education Students By Leveraging **Non-Invasive Digital Behavior Signals (Dbs)**. Moving Beyond Archaic, Self-Reported Psychometrics Which Suffer From Retrospective Recall Bias, We Analyzed A Complex Matrix Of Behavioral Features—Including **ProcrastinationLevel**, **HealthIndex**, & **DigitalInteraction**—To Construct A Predictive Phenotype Of Student Distress. The Dataset Was Processed Using Advanced Python Libraries Including Pandas, Scikit-Learn, & Natural Language Processing (Nlp) Techniques via TfidfVectorizer.
 
-Our Analytical Pipeline Contrasted A Baseline **Linear Regression Model** Against A Non-Linear **Decision Tree Classifier**. The Results Were Profound & Statistically Significant: The Linear Model Failed Catastrophically ($R^2 = 0.1657$), Proving That Stress Is Not An Additive Function Of Behavior But A Complex System Dynamics Problem. Conversely, The Decision Tree Achieved A Robust Overall Accuracy Of **75.27%**. However, A Granular Error Analysis Revealed A Critical Sensitivity Gap: While The Model Exhibited Near-Perfect Specificity For Healthy Students (Recall: 0.94), It Struggled To Identify High-Risk Students (Recall: 0.18) Due To Severe Class Imbalance In The Training Data.
+Our Analytical Pipeline Contrasted A Baseline **Linear Regression Model** Against A Non-Linear **Decision Tree Classifier**. The Results Were Profound & Statistically Significant: The Linear Model Failed Catastrophically ($MSE = 1.0004$, $R^2 = 0.1657$), Proving That Stress Is Not An Additive Function Of Behavior But A Complex System Dynamics Problem. Conversely, The Decision Tree Achieved A Robust Overall Accuracy Of **75.27%**. However, A Granular Error Analysis Revealed A Critical Sensitivity Gap: While The Model Exhibited Near-Perfect Specificity For Healthy Students (Recall: 0.94), It Struggled To Identify High-Risk Students (Recall: 0.18) Due To Severe Class Imbalance In The Training Data.
 
 The Study Unequivocally Identifies **ProcrastinationLevel** As The Cardinal Behavioral Marker Of Stress (Importance $\approx 45\%$), Providing A Singular Focal Point For Future Educational Interventions. This Report Validates The Theoretical Foundation For **Automated, Real-Time Student Well-Being Surveillance Systems**.
 
@@ -21,7 +21,7 @@ We Posit The **"Digital Phenotype Hypothesis"**: That The Cumulative Micro-Inter
 ### 1.3 Research Objectives & Computational Goals
 1.  **Quantification:** To Mathematically Engineer Behavioral Features From Raw Log Data Using Python Libraries Such As **Pandas**, **Numpy**, & **Regular Expressions (Re)** To Parse Unstructured Inputs.
 2.  **Correlation Analysis:** To Map The Linear Interdependencies Via Pearson Correlation Coefficients To Identify Multicollinearity & Latent Relationships.
-3.  **Non-Linearity Validation:** To Prove That Stress Manifests Through Threshold-Based Decision Boundaries Rather Than Linear Accumulation Via Least Squares Failure.
+3.  **Non-Linearity Validation:** To Prove That Stress Manifests Through Threshold-Based Decision Boundaries Rather Than Linear Accumulation via Least Squares Failure.
 4.  **Causality & Feature Ranking:** To Establish A Hierarchy Of Feature Importance Using Gini Impurity Metrics Derived From Scikit-Learn's `DecisionTreeClassifier`.
 
 ---
@@ -51,7 +51,7 @@ $$
 If The Relationship Between Digital Behavior & Stress Is Non-Linear (E.g., Threshold-Based), This Function Will Fail To Converge On A Low Error Rate, Resulting In A High Mse & Low $R^2$.
 
 ### 2.2 Natural Language Processing: TF-IDF Vectorization Theory
-To Quantify The `emotionalText` Feature From The Survey, We Employed **Term Frequency-Inverse Document Frequency (Tfidf)** Via `TfidfVectorizer`. This Statistical Method Evaluates How Relevant A Word Is To A Document In A Collection, Filtering Out Stop Words Like 'Là', 'Và', 'Của'.
+To Quantify The `emotionalText` Feature From The Survey ("Hãy mô tả cảm xúc hiện tại..."), We Employed **Term Frequency-Inverse Document Frequency (Tfidf)** via `TfidfVectorizer`. This Statistical Method Evaluates How Relevant A Word Is To A Document In A Collection, Filtering Out Stop Words Like 'Là', 'Và', 'Của'.
 
 $$
 \text{TF-IDF}(t, d) = \text{TF}(t, d) \times \text{IDF}(t)
@@ -64,7 +64,7 @@ Where:
 This Allows Us To Convert Qualitative Text Into Quantitative `sentimentIntensity`. High TF-IDF Scores Indicate Unique, Emotionally Charged Vocabulary Specific To That Student's State.
 
 ### 2.3 Decision Tree Classification & Gini Impurity Dynamics
-Given The Failure Of Linearity, We Utilized A Classification Tree Via `DecisionTreeClassifier`. The Tree Splits Nodes Based On Reducing **Gini Impurity**, Which Measures The Likelihood Of Incorrect Classification If A Label Were Chosen Randomly.
+Given The Failure Of Linearity, We Utilized A Classification Tree via `DecisionTreeClassifier`. The Tree Splits Nodes Based On Reducing **Gini Impurity**, Which Measures The Likelihood Of Incorrect Classification If A Label Were Chosen Randomly.
 
 The Formula For Gini Impurity At Node $t$ Is:
 $$
@@ -87,7 +87,7 @@ The Raw Data Was Ingested From `NCKH.csv` & Processed Using A Custom Python Pipe
 Real-World User Data Is Messy. We Implemented Custom Functions To Parse Natural Language Inputs Into Numerical Floats.
 
 * **Function `cleanHours(text)`:**
-    Designed To Handle Variance In Time Input (E.g., "2 Hours", "30 Mins").
+    Designed To Handle Variance In Time Input (E.g., "2 Hours", "30 Mins", "Ngay Lập Tức").
     * **Logic:** Uses `re.findall(r'\d+(?:[.,]\d+)?', text)` To Extract Numbers.
     * **Normalization:** If The User Inputs "Day" Or "Ngày", We Multiply By 24. If "Phút", "P", Or "'", We Divide By 60.
     * **Imputation:** Missing Values Are Filled With The Median To Preserve Distribution Integrity & Prevent Outlier Skew.
@@ -126,6 +126,7 @@ We Constructed Composite Features To Capture Interaction Effects, As Single Vari
 * **Binarization:** The `stressScore` (Originally 1-10) Was Converted To A Binary Classification Target ($y$).
     * `stressScore >= 4` $\rightarrow$ **High Stress (1)**
     * `stressScore < 4` $\rightarrow$ **Normal (0)**
+    * *Note:* This Threshold Creates The Class Imbalance Observed Later.
 
 ---
 
@@ -148,14 +149,10 @@ Recognizing The Non-Linearity, We Moved To A Decision Tree (`max_depth=4`) To Ca
 * **Overall Accuracy:** `75.27%`
 
 **Detailed Classification Report:**
-
 | Class | Precision | Recall | F1-Score | Support |
 | :--- | :--- | :--- | :--- | :--- |
 | **Normal (0)** | 0.78 | **0.94** | 0.85 | 349 |
 | **High Stress (1)** | 0.51 | **0.18** | 0.27 | 116 |
-
-**Visualizing The Tree:**
-![Decision Tree Model](DecisionTree.png)
 
 **Deep Analysis Of Classification Metrics:**
 * **Specificity Success:** The Model Is Excellent At Identifying Normal Students (Recall 0.94). This Means It Has A Low False Positive Rate.
@@ -164,9 +161,6 @@ Recognizing The Non-Linearity, We Moved To A Decision Tree (`max_depth=4`) To Ca
 
 ### 4.3 Feature Importance Hierarchy
 Using The Gini Importance Metric From The Trained Tree, We Ranked The Predictors.
-
-**Visualizing Importance:**
-![Feature Importance](ImportanceScore.png)
 
 **Rankings & Interpretation:**
 1.  **ProcrastinationLevel (Score $\approx 0.45$):** The Dominant Predictor. This Suggests That Behavioral Avoidance Is The Strongest Signal Of Internal Distress.
@@ -181,15 +175,13 @@ Using The Gini Importance Metric From The Trained Tree, We Ranked The Predictors
 ### 5.1 The Correlation Matrix & Multicollinearity
 We Generated A Heatmap To Visualize Linear Relationships Using `Seaborn`.
 
-![Correlation Matrix](CorrelationMatrix.png)
-
 **Key Observations:**
 * **Multicollinearity:** `digitalInteraction` & `lmsAccess` Have A High Correlation ($r=0.82$). This Confirms That Active Students Are Also Frequent Loggers. In Future Iterations, We Can Drop One To Reduce Dimensionality, Or Use Regularization (Lasso/Ridge).
 * **The Procrastination Link:** `procrastinationLevel` Has The Strongest Positive Correlation With `stressScore` ($r=0.34$). This Aligns Perfectly With Our Decision Tree Results & Validates The Use Of Procrastination As A Proxy.
 * **The Health Inverse:** `healthIndex` Is Negatively Correlated With Stress ($r=-0.20$). As Health Goes Up, Stress Goes Down.
 
 ### 5.2 Interpreting The Decision Tree Logic
-The Tree Structure (Visualized Above) Reveals The "Rules" Of Stress Detection:
+The Tree Structure Reveals The "Rules" Of Stress Detection:
 1.  **The Primary Cut:** If `procrastinationLevel <= 1.182`, The Student Is Likely Normal. This Is The Most Discriminative Threshold.
 2.  **The Secondary Cut (High Procrastination Branch):** If `sleepHours <= 0.34` (Standardized), The Risk Of High Stress Explodes.
 3.  **Conclusion:** Stress Is Combinatorial. It Is Not Just Procrastination; It Is **Procrastination Combined With Lack Of Sleep**. The Tree Logic Confirms That Physiological State Modulates The Impact Of Behavioral Habits.
