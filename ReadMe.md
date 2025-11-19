@@ -721,3 +721,9 @@ This Technology Offers An Unprecedented Opportunity To Transform Mental Health S
 5. **Measure Real-World Outcomes** - Does Early Detection Actually Improve Student Stress, Academics, & Mental Health?
 
 The Mental Health Crisis Affecting College Students Is A Solvable Problem. Machine Learning Provides Tools, But Universities Must Provide Will, Resources, & Ethical Leadership.
+
+---
+
+<img src="/img/CorrelationMatrix.png" />
+<img src="/img/DecisionTree.png" />
+<img src="/img/ImportanceScore.png" />
