@@ -1,4 +1,4 @@
-# Doctoral Dissertation: The Algorithmic Detection Of Academic Psychopathology Via High-Dimensional Digital Behavior Signals & Computational Linguistics
+# The Algorithmic Detection Of Academic Psychopathology Via High-Dimensional Digital Behavior Signals & Computational Linguistics
 
 ## Abstract
 
