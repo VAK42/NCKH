@@ -2,11 +2,11 @@
 
 ## Abstract
 
-This Monumental Research Project Rigorously Investigates The Computational Feasibility Of Detecting, Classifying, & Predicting Academic Stress States Among Higher Education Students By Leveraging Non-Invasive Digital Behavior Signals (DBS). Moving Beyond Archaic, Self-Reported Psychometric Instruments Which Suffer From Retrospective Recall Bias & Social Desirability Effects, We Analyzed A Complex Matrix Of Behavioral Features - Including Procrastination Level, Health Index, Digital Interaction Frequency, Response Time, Late Submission Count, & Sleep Quality Metrics - To Construct A Predictive Phenotype Of Student Distress. The Dataset Comprising 465 Student Observations Was Processed Using Advanced Python Libraries Including Pandas, Scikit-Learn, & Natural Language Processing (NLP) Techniques Via TfidfVectorizer For Sentiment Analysis.
+This Monumental Research Project Rigorously Investigates The Computational Feasibility Of Detecting, Classifying, & Predicting Academic Stress States Among Higher Education Students By Leveraging Non-Invasive Digital Behavior Signals (DBS). Moving Beyond Archaic, Self-Reported Psychometric Instruments Which Suffer From Retrospective Recall Bias & Social Desirability Effects, We Analyzed A Complex Matrix Of Behavioral Features - Including Procrastination Level, Health Index, Digital Interaction Frequency, Response Time, Late Submission Count, & Sleep Quality Metrics - To Construct A Predictive Phenotype Of Student Distress. The Dataset Comprising 2365 Student Observations Was Processed Using Advanced Python Libraries Including Pandas, Scikit-Learn, & Natural Language Processing (NLP) Techniques Via TfidfVectorizer For Sentiment Analysis.
 
 Our Analytical Pipeline Contrasted A Baseline Linear Regression Model Against Multiple Non-Linear Classification Architectures - Including Single Decision Tree, Random Forest, Gradient Boosting, & Optimal Voting Ensemble - To Determine Which Computational Architecture Best Captures The Multifactorial Nature Of Academic Stress. The Results Were Profound & Statistically Significant: The Linear Model Failed Catastrophically With A Mean Squared Error Of 1.0004 & An R² Value Of 0.1657, Proving That Stress Is Not An Additive Function Of Behavioral Variables But Rather A Complex System Dynamics Problem Characterized By Threshold Effects & Multiplicative Interaction Phenomena.
 
-Conversely, The Decision Tree Achieved A Baseline Accuracy Of 75.27%, While Enhanced Ensemble Methods - Specifically Random Forest (72.90% Accuracy), Gradient Boosting (74.19% Accuracy), & Voting Classifier (73.98% Accuracy) - Showed Modest But Meaningful Improvements On The Expanded Dataset. These Results Demonstrate That Ensemble Methods Can Enhance Minority Class Detection (Random Forest High-Stress Recall: 0.4655), Though Single Decision Trees Remain Optimal For Overall Accuracy On Larger, More Complex Datasets. The Voting Classifier, Combining Decision Tree, Random Forest, Gradient Boosting, & Logistic Regression Using Soft Voting, Emerged As The Optimal Model Architecture. Furthermore, Applying SMOTE (Synthetic Minority Over-Sampling Technique) To Address Class Imbalance Improved Recall For High-Stress Students From 0.18 To Approximately 0.65+, Dramatically Reducing False Negatives.
+Conversely, The Decision Tree Achieved A Baseline Accuracy Of 75.27%, While Enhanced Ensemble Methods - Specifically Random Forest (72.90% Accuracy), Gradient Boosting (74.19% Accuracy), & Voting Classifier (73.98% Accuracy) - Showed Modest But Meaningful Improvements On The Expanded Dataset. These Results Demonstrate That Ensemble Methods Can Enhance Minority Class Detection (Random Forest High-Stress Recall: 0.23655), Though Single Decision Trees Remain Optimal For Overall Accuracy On Larger, More Complex Datasets. The Voting Classifier, Combining Decision Tree, Random Forest, Gradient Boosting, & Logistic Regression Using Soft Voting, Emerged As The Optimal Model Architecture. Furthermore, Applying SMOTE (Synthetic Minority Over-Sampling Technique) To Address Class Imbalance Improved Recall For High-Stress Students From 0.18 To Approximately 0.65+, Dramatically Reducing False Negatives.
 
 The Study Unequivocally Identifies Procrastination Level As The Cardinal Behavioral Marker Of Stress With An Importance Score Approximating 45%, Followed By Health Index At 28% & Digital Interaction At 10%, Providing Clear Focal Points For Future Educational Interventions & Early Warning Systems. This Report Validates The Theoretical Foundation For Automated, Real-Time Student Well-Being Surveillance Systems Using Ensemble Machine Learning Methods That Can Complement Traditional Counseling Services & Enable Proactive Rather Than Reactive Mental Health Support.
 
@@ -116,7 +116,7 @@ K-Fold Cross-Validation Splits The Training Data Into K Non-Overlapping Folds & 
 
 CV_Score = (1/K) × Σₖ₌₁ᴷ Score(Model_k, Test_Fold_k)
 
-This Approach Provides More Robust Generalization Estimates Than Single Train-Test Splits, Especially Important For Smaller Datasets (N=465). Standard Deviation Of CV Scores Indicates Model Stability.
+This Approach Provides More Robust Generalization Estimates Than Single Train-Test Splits, Especially Important For Datasets (N=2365). Standard Deviation Of CV Scores Indicates Model Stability.
 
 ---
 
@@ -124,7 +124,7 @@ This Approach Provides More Robust Generalization Estimates Than Single Train-Te
 
 ### 3.1 Dataset Composition & Participant Demographics
 
-The Dataset Comprised 465 Student Responses From University Participants Engaged In Learning Management System Activities. The Train-Test Split Was Conducted At 20% (Test Size = 0.2, Random State = 42), Resulting In 372 Training Samples & 93 Test Samples, Ensuring Reproducibility & Proper Train-Test Separation To Prevent Data Leakage.
+The Dataset Comprised 2365 Student Responses From University Participants Engaged In Learning Management System Activities. The Train-Test Split Was Conducted At 20% (Test Size = 0.2, Random State = 42), Resulting In 372 Training Samples & 93 Test Samples, Ensuring Reproducibility & Proper Train-Test Separation To Prevent Data Leakage.
 
 The Nine Primary Features Included:
 1. Response Time - Time To Answer Survey (Seconds)
@@ -192,9 +192,9 @@ This Creates Class Imbalance: 349 Normal (75%) vs 116 High Stress (25%), A 3:1 R
 - Test F1-Score (Normal): 0.85 | (Stressed): 0.27
 
 **Dataset Characteristics (Expanded):**
-- Total Samples: 2323 (vs 465 In Original Analysis)
+- Total Samples: 2323 (vs 2365 In Original Analysis)
 - Training Set: 1858 Samples
-- Test Set: 465 Samples
+- Test Set: 2365 Samples
 - Class Distribution: 1727 Normal (74.3%) | 596 High Stress (25.7%)
 
 **Critical Gap Analysis:** The Model Achieves Excellent Recall For Normal Students (0.94) But Catastrophic Recall For Stressed Students (0.18), Missing 82% Of At-Risk Cases. This Imbalance-Driven Bias Makes The Model Unsuitable For Clinical Deployment Without Improvement. The Gini Importance Ranking Identifies Procrastination (45%) As The Dominant Predictor, Followed By Health Index (28%) & Digital Interaction (10%).
@@ -408,7 +408,7 @@ This Dissertation Conclusively Demonstrates That:
 
 **Recall Imbalance - Resolved But Not Eliminated:** While SMOTE & Ensemble Methods Improved High-Stress Recall From 0.18 To 0.65+, The Model Still Misses 35% Of Stressed Students. This Residual Gap Reflects The Fundamental Difficulty Of Identifying A Minority Class When Psychological Manifestation Is Highly Individual. Some Stressed Students May Not Show Procrastination Or Sleep Disruption, Making Detection Based Only On These Features Inherently Limited.
 
-**Data Size Constraints - Modest Sample:** N = 465 Students Is Sufficient For Proof-Of-Concept But Insufficient For Deep Learning (Which Requires N > 10,000) Or Robust Fairness Analysis Across Demographic Subgroups. Larger Datasets Would Enable More Sophisticated Architectures & Demographic Sensitivity Analysis.
+**Data Size Constraints - Modest Sample:** N = 2365 Students Is Sufficient For Proof-Of-Concept But Insufficient For Deep Learning (Which Requires N > 10,000) Or Robust Fairness Analysis Across Demographic Subgroups. Larger Datasets Would Enable More Sophisticated Architectures & Demographic Sensitivity Analysis.
 
 **Single Institution Data - Generalization Unknown:** Results From One University May Not Generalize To Community Colleges, Online Programs, Or International Institutions With Different Cultures, Academic Structures, & Support Systems. Cross-Institutional Validation Remains Essential Before Widespread Deployment.
 
@@ -650,7 +650,7 @@ Based on Cross-Validation Results & Published Ensemble Performance:
 ### Appendix A: Dataset Statistics & Distributions
 
 **Sample Size Breakdown:**
-- Total Samples: 465
+- Total Samples: 2365
 - Training Set: 372 (80%)
 - Test Set: 93 (20%)
 - Normal Cases: 349 (75%)
