@@ -5,9 +5,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.linear_model import LinearRegression, LogisticRegression
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, VotingClassifier
-from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import (mean_squared_error, r2_score, accuracy_score, classification_report, f1_score, precision_score, recall_score)
 from sklearn.preprocessing import StandardScaler
 from imblearn.over_sampling import SMOTE
@@ -22,6 +21,7 @@ colMap = {
   'Trung bình bạn mất bao lâu để bắt đầu làm bài tập sau khi được giao (tính bằng giờ)?': 'responseTime',
   'Trong 4 tuần gần nhất, bạn nộp muộn bao nhiêu lần?': 'lateCount',
   'Bạn truy cập hệ thống học tập (LMS, portal lớp) trung bình bao nhiêu lần mỗi ngày?': 'lmsAccess',
+  'Thời điểm bạn thường truy cập nhất:': 'accessTiming',
   'Hãy mô tả cảm xúc hiện tại của bạn về việc học tập (2–5 câu, 50–200 từ):': 'emotionalText',
   'Mức độ căng thẳng do học tập trong 2 tuần gần nhất': 'stressScore',
   'Bạn ngủ trung bình bao nhiêu giờ mỗi đêm?': 'sleepHours',
@@ -36,7 +36,8 @@ def cleanHours(text):
   if any(w in text for w in ['ngay', 'luôn', 'lập tức']): return 0.1
   nums = re.findall(r'\d+(?:[.,]\d+)?', text)
   if not nums: return np.nan
-  val = float(nums[0].replace(',', '.'))
+  vals = [float(n.replace(',', '.')) for n in nums]
+  val = sum(vals) / len(vals)
   if 'ngày' in text or 'day' in text: return val * 24
   if 'phút' in text or 'p' in text or "'" in text: return val / 60
   return val
@@ -51,6 +52,27 @@ def cleanLateCount(text):
   if pd.isna(text): return 0
   nums = re.findall(r'\d+', str(text))
   return int(nums[0]) if nums else 0
+negWords = ['căng thẳng', 'mệt', 'áp lực', 'lo lắng', 'sợ', 'chán', 'khó', 'stress', 'buồn', 'tệ', 'kém', 'thất bại', 'không thể', 'quá tải', 'kiệt sức', 'không hiểu', 'khó khăn', 'nặng nề', 'mất ngủ', 'lo âu']
+posWords = ['vui', 'tốt', 'ổn', 'thoải mái', 'tự tin', 'thích', 'hứng thú', 'hiểu', 'dễ', 'hài lòng', 'tích cực', 'yêu thích', 'hứng khởi']
+def sentimentScore(text):
+  if pd.isna(text): return 0
+  text = str(text).lower()
+  neg = sum(1 for w in negWords if w in text)
+  pos = sum(1 for w in posWords if w in text)
+  return neg - pos
+ordinalMaps = {
+  'sleepQuality': {'rất tệ': 1, 'tệ': 2, 'kém': 2, 'trung bình': 3, 'bình thường': 3, 'tốt': 4, 'rất tốt': 5},
+  'interactionScore': {'rất thấp': 1, 'thấp': 2, 'ít': 2, 'trung bình': 3, 'cao': 4, 'thường xuyên': 4, 'rất cao': 5},
+  'procrastinationLevel': {'không bao giờ': 1, 'hiếm': 2, 'đôi khi': 3, 'thỉnh thoảng': 3, 'thường xuyên': 4, 'luôn luôn': 5},
+  'accessTiming': {'sáng': 1, 'trưa': 1, 'chiều': 1, 'tối': 2, 'khuya': 3}
+}
+def cleanOrdinal(text, mapping):
+  if pd.isna(text): return np.nan
+  text = str(text).strip().lower()
+  for key, val in mapping.items():
+    if key in text: return val
+  nums = re.findall(r'\d+', text)
+  return float(nums[0]) if nums else np.nan
 dfClean['responseTime'] = dfClean['responseTime'].apply(cleanHours)
 dfClean['responseTime'] = pd.to_numeric(dfClean['responseTime'], errors='coerce')
 dfClean['responseTime'] = dfClean['responseTime'].fillna(dfClean['responseTime'].median())
@@ -61,12 +83,14 @@ dfClean['lmsAccess'] = dfClean['lmsAccess'].apply(cleanRange)
 dfClean['lateCount'] = dfClean['lateCount'].apply(cleanLateCount)
 dfClean['stressScore'] = pd.to_numeric(dfClean['stressScore'], errors='coerce')
 dfClean['stressScore'] = dfClean['stressScore'].fillna(dfClean['stressScore'].median())
-vectorizer = TfidfVectorizer(max_features=50, stop_words=['là', 'và', 'của', 'thì'])
-tfidfMatrix = vectorizer.fit_transform(dfClean['emotionalText'].fillna("").astype(str))
-dfClean['sentimentIntensity'] = tfidfMatrix.sum(axis=1)
+for col, mapping in ordinalMaps.items():
+  dfClean[col] = dfClean[col].apply(lambda x: cleanOrdinal(x, mapping))
+  dfClean[col] = pd.to_numeric(dfClean[col], errors='coerce')
+  dfClean[col] = dfClean[col].fillna(dfClean[col].median())
+dfClean['sentimentIntensity'] = dfClean['emotionalText'].apply(sentimentScore)
 dfClean['healthIndex'] = dfClean['sleepHours'] * dfClean['sleepQuality']
 dfClean['digitalInteraction'] = dfClean['lmsAccess'] * dfClean['interactionScore']
-features = ['responseTime', 'lateCount', 'lmsAccess', 'sentimentIntensity', 'sleepHours', 'procrastinationLevel', 'healthIndex', 'digitalInteraction']
+features = ['responseTime', 'lateCount', 'lmsAccess', 'accessTiming', 'sentimentIntensity', 'sleepHours', 'procrastinationLevel', 'healthIndex', 'digitalInteraction']
 target = 'stressScore'
 dfFinal = dfClean.dropna(subset=features + [target])
 x = dfFinal[features]
@@ -81,14 +105,14 @@ xTrainClass, xTestClass, yTrainClass, yTestClass = train_test_split(
   xScaled, yClass, test_size=0.2, random_state=42
 )
 print("=" * 80)
-print("MODEL TRAINING, ENSEMBLE & COMPARISON")
+print("Model Training, Ensemble & Comparison")
 print("=" * 80)
 print(f"\nDataset Size: {len(dfFinal)} Samples")
 print(f"Training Set: {len(xTrainReg)} Samples | Test Set: {len(xTestReg)} Samples")
 print(f"Class Distribution: Normal={sum(yClass == 0)} | High Stress={sum(yClass == 1)}")
 print(f"Feature Count: {len(features)}")
 print("\n" + "=" * 80)
-print("MODEL 1: LINEAR REGRESSION (BASELINE FOR REGRESSION)")
+print("Model 1: Linear Regression (Baseline For Regression)")
 print("=" * 80)
 linReg = LinearRegression()
 linReg.fit(xTrainReg, yTrainReg)
@@ -105,7 +129,7 @@ print(f"\nTest Metrics:")
 print(f"  - MSE: {mseLinTest:.4f}")
 print(f"  - R² Score: {r2LinTest:.4f}")
 print("\n" + "=" * 80)
-print("MODEL 2: DECISION TREE CLASSIFIER (BASELINE FOR CLASSIFICATION)")
+print("Model 2: Decision Tree Classifier (Baseline For Classification)")
 print("=" * 80)
 dtModel = DecisionTreeClassifier(max_depth=4, random_state=42)
 dtModel.fit(xTrainClass, yTrainClass)
@@ -126,7 +150,7 @@ print(f"  - F1-Score: {f1_score(yTestClass, yPredDtTest):.4f}")
 print(f"\nClassification Report (Test Set):")
 print(classification_report(yTestClass, yPredDtTest, target_names=['Bình Thường', 'Stress Cao']))
 print("\n" + "=" * 80)
-print("PHASE 5: HANDLING CLASS IMBALANCE WITH SMOTE")
+print("Phase 5: Handling Class Imbalance With SMOTE")
 print("=" * 80)
 smote = SMOTE(random_state=42)
 xTrainSmote, yTrainSmote = smote.fit_resample(xTrainClass, yTrainClass)
@@ -134,7 +158,7 @@ print(f"\nClass Distribution After SMOTE:")
 print(f"  - Original: Normal={sum(yTrainClass == 0)} | High Stress={sum(yTrainClass == 1)}")
 print(f"  - After SMOTE: Normal={sum(yTrainSmote == 0)} | High Stress={sum(yTrainSmote == 1)}")
 print("\n" + "=" * 80)
-print("MODEL 3: RANDOM FOREST CLASSIFIER (ENSEMBLE METHOD)")
+print("Model 3: Random Forest Classifier (Ensemble Method)")
 print("=" * 80)
 rfModel = RandomForestClassifier(n_estimators=100, max_depth=5, random_state=42, n_jobs=-1)
 rfModel.fit(xTrainSmote, yTrainSmote)
@@ -153,7 +177,7 @@ print(f"  - Precision: {precision_score(yTestClass, yPredRfTest):.4f}")
 print(f"  - Recall: {recall_score(yTestClass, yPredRfTest):.4f}")
 print(f"  - F1-Score: {f1_score(yTestClass, yPredRfTest):.4f}")
 print("\n" + "=" * 80)
-print("MODEL 4: GRADIENT BOOSTING CLASSIFIER (ADVANCED ENSEMBLE)")
+print("Model 4: Gradient Boosting Classifier (Advanced Ensemble)")
 print("=" * 80)
 gbModel = GradientBoostingClassifier(n_estimators=100, learning_rate=0.1, max_depth=3, random_state=42)
 gbModel.fit(xTrainSmote, yTrainSmote)
@@ -172,7 +196,7 @@ print(f"  - Precision: {precision_score(yTestClass, yPredGbTest):.4f}")
 print(f"  - Recall: {recall_score(yTestClass, yPredGbTest):.4f}")
 print(f"  - F1-Score: {f1_score(yTestClass, yPredGbTest):.4f}")
 print("\n" + "=" * 80)
-print("MODEL 5: VOTING CLASSIFIER (OPTIMAL ENSEMBLE COMBINATION)")
+print("Model 5: Voting Classifier (Optimal Ensemble Combination)")
 print("=" * 80)
 votingModel = VotingClassifier(
   estimators=[
@@ -199,7 +223,7 @@ print(f"  - Precision: {precision_score(yTestClass, yPredVoteTest):.4f}")
 print(f"  - Recall: {recall_score(yTestClass, yPredVoteTest):.4f}")
 print(f"  - F1-Score: {f1_score(yTestClass, yPredVoteTest):.4f}")
 print("\n" + "=" * 80)
-print("COMPREHENSIVE MODEL COMPARISON")
+print("Comprehensive Model Comparison")
 print("=" * 80)
 comparisonData = {
   'Model': ['Linear Regression', 'Decision Tree', 'Random Forest', 'Gradient Boosting', 'Voting Classifier'],
@@ -220,7 +244,7 @@ comparisonData = {
 comparisonDf = pd.DataFrame(comparisonData)
 print("\n", comparisonDf.to_string(index=False))
 print("\n" + "=" * 80)
-print("CROSS-VALIDATION SCORES (5-FOLD)")
+print("Cross-Validation Scores (5-Fold)")
 print("=" * 80)
 cvModels = {
   'Decision Tree': DecisionTreeClassifier(max_depth=4, random_state=42),
@@ -240,7 +264,7 @@ for modelName, model in cvModels.items():
   print(f"  - Mean Accuracy: {scores.mean():.4f} (+/- {scores.std():.4f})")
   print(f"  - Fold Scores: {[f'{s:.4f}' for s in scores]}")
 print("\n" + "=" * 80)
-print("FEATURE IMPORTANCE ANALYSIS")
+print("Feature Importance Analysis")
 print("=" * 80)
 print("\nRandom Forest Feature Importance:")
 rfImportances = pd.Series(rfModel.feature_importances_, index=features).sort_values(ascending=False)
@@ -249,7 +273,7 @@ print("\nGradient Boosting Feature Importance:")
 gbImportances = pd.Series(gbModel.feature_importances_, index=features).sort_values(ascending=False)
 print(gbImportances)
 print("\n" + "=" * 80)
-print("GENERATING VISUALIZATIONS...")
+print("Generating Visualizations...")
 print("=" * 80)
 plt.figure(figsize=(12, 10))
 sns.heatmap(dfFinal[features + [target]].corr(), annot=True, cmap='coolwarm', fmt=".2f", square=True,
@@ -274,6 +298,8 @@ plt.tight_layout()
 plt.savefig('ModelAccuracyComparison.png', dpi=300, bbox_inches='tight')
 plt.show()
 fig, axes = plt.subplots(1, 2, figsize=(16, 6))
+rfImportances.index = [re.sub(r'([a-z])([A-Z])', r'\1 \2', f).title() for f in rfImportances.index]
+gbImportances.index = [re.sub(r'([a-z])([A-Z])', r'\1 \2', f).title() for f in gbImportances.index]
 rfImportances.sort_values().plot(kind='barh', ax=axes[0], color='steelblue')
 axes[0].set_title('Random Forest Feature Importance', fontsize=12, fontweight='bold')
 axes[0].set_xlabel('Importance Score')
@@ -312,18 +338,32 @@ ax.set_ylim([0, 1.0])
 plt.tight_layout()
 plt.savefig('PrecisionRecallF1Comparison.png', dpi=300, bbox_inches='tight')
 plt.show()
+plt.figure(figsize=(20, 10))
+titleCaseFeatures = [re.sub(r'([a-z])([A-Z])', r'\1 \2', f).title() for f in features]
+plot_tree(dtModel, feature_names=titleCaseFeatures, class_names=['Bình Thường', 'Stress Cao'], filled=True, rounded=True, max_depth=3)
+plt.title("Decision Tree Visualization", fontsize=16, fontweight='bold')
+plt.savefig('DecisionTree.png', dpi=300, bbox_inches='tight')
+plt.show()
+avgImportances = (rfImportances + gbImportances) / 2
+plt.figure(figsize=(10, 6))
+pd.Series(avgImportances.values, index=titleCaseFeatures).sort_values().plot(kind='barh', color='purple')
+plt.title('Average Feature Importance Score', fontsize=14, fontweight='bold')
+plt.xlabel('Importance Score')
+plt.tight_layout()
+plt.savefig('ImportanceScore.png', dpi=300, bbox_inches='tight')
+plt.show()
 print("\n" + "=" * 80)
-print("ALL VISUALIZATIONS SAVED SUCCESSFULLY!")
+print("All Visualizations Saved Successfully!")
 print("=" * 80)
 print("\n" + "=" * 80)
-print("FINAL RECOMMENDATION")
+print("Final Recommendation")
 print("=" * 80)
 bestModel = max([('Decision Tree', accDtTest), ('Random Forest', accRfTest),
                  ('Gradient Boosting', accGbTest), ('Voting Classifier', accVoteTest)],
                 key=lambda x: x[1])
-print(f"\n✓ BEST OVERALL MODEL: {bestModel[0]}")
+print(f"\n✓ Best Overall Model: {bestModel[0]}")
 print(f"  - Test Accuracy: {bestModel[1]:.4f}")
-print(f"\n✓ Recommendation: Use {bestModel[0]} for Production Deployment")
+print(f"\n✓ Recommendation: Use {bestModel[0]} For Production Deployment")
 print(f"✓ Key Improvements Applied:")
 print(f"  1. SMOTE For Class Imbalance Handling")
 print(f"  2. Ensemble Methods (Random Forest, Gradient Boosting, Voting)")

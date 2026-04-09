@@ -1,0 +1,187 @@
+================================================================================
+Model Training, Ensemble & Comparison
+================================================================================
+
+Dataset Size: 2357 Samples
+Training Set: 1885 Samples | Test Set: 472 Samples
+Class Distribution: Normal=1758 | High Stress=599
+Feature Count: 9
+
+================================================================================
+Model 1: Linear Regression (Baseline For Regression)
+================================================================================
+
+Training Metrics:
+  - MSE: 1.0231
+  - R² Score: 0.1934
+
+Test Metrics:
+  - MSE: 1.0562
+  - R² Score: 0.2003
+
+================================================================================
+Model 2: Decision Tree Classifier (Baseline For Classification)
+================================================================================
+
+Training Metrics:
+  - Accuracy: 0.7740
+  - Precision: 0.6303
+  - Recall: 0.2765
+  - F1-Score: 0.3844
+
+Test Metrics:
+  - Accuracy: 0.7521
+  - Precision: 0.5088
+  - Recall: 0.2458
+  - F1-Score: 0.3314
+
+Classification Report (Test Set):
+              precision    recall  f1-score   support
+
+ Bình Thường       0.79      0.92      0.85       354
+  Stress Cao       0.51      0.25      0.33       118
+
+    accuracy                           0.75       472
+   macro avg       0.65      0.58      0.59       472
+weighted avg       0.72      0.75      0.72       472
+
+
+================================================================================
+Phase 5: Handling Class Imbalance With SMOTE
+================================================================================
+
+Class Distribution After SMOTE:
+  - Original: Normal=1404 | High Stress=481
+  - After SMOTE: Normal=1404 | High Stress=1404
+
+================================================================================
+Model 3: Random Forest Classifier (Ensemble Method)
+================================================================================
+
+Training Metrics:
+  - Accuracy: 0.7432
+  - Precision: 0.4975
+  - Recall: 0.6216
+  - F1-Score: 0.5527
+
+Test Metrics:
+  - Accuracy: 0.7458
+  - Precision: 0.4926
+  - Recall: 0.5678
+  - F1-Score: 0.5276
+
+================================================================================
+Model 4: Gradient Boosting Classifier (Advanced Ensemble)
+================================================================================
+
+Training Metrics:
+  - Accuracy: 0.7809
+  - Precision: 0.5810
+  - Recall: 0.5073
+  - F1-Score: 0.5416
+
+Test Metrics:
+  - Accuracy: 0.7669
+  - Precision: 0.5455
+  - Recall: 0.4068
+  - F1-Score: 0.4660
+
+================================================================================
+Model 5: Voting Classifier (Optimal Ensemble Combination)
+================================================================================
+
+Training Metrics:
+  - Accuracy: 0.7411
+  - Precision: 0.4943
+  - Recall: 0.6320
+  - F1-Score: 0.5547
+
+Test Metrics:
+  - Accuracy: 0.7415
+  - Precision: 0.4853
+  - Recall: 0.5593
+  - F1-Score: 0.5197
+
+================================================================================
+Comprehensive Model Comparison
+================================================================================
+
+             Model Test Accuracy Test Precision Test Recall Test F1-Score
+Linear Regression             -              -           -             -
+    Decision Tree      0.752119       0.508772    0.245763      0.331429
+    Random Forest      0.745763       0.492647    0.567797      0.527559
+Gradient Boosting      0.766949       0.545455     0.40678      0.466019
+Voting Classifier      0.741525       0.485294    0.559322      0.519685
+
+================================================================================
+Cross-Validation Scores (5-Fold)
+================================================================================
+
+Decision Tree:
+  - Mean Accuracy: 0.7222 (+/- 0.0283)
+  - Fold Scores: ['0.6762', '0.7278', '0.7260', '0.7647', '0.7166']
+
+Random Forest:
+  - Mean Accuracy: 0.7561 (+/- 0.0486)
+  - Fold Scores: ['0.6779', '0.7384', '0.8078', '0.8075', '0.7487']
+
+Gradient Boosting:
+  - Mean Accuracy: 0.7818 (+/- 0.1099)
+  - Fold Scores: ['0.5925', '0.7242', '0.8683', '0.8841', '0.8396']
+
+Voting Classifier:
+  - Mean Accuracy: 0.7582 (+/- 0.0407)
+  - Fold Scores: ['0.6886', '0.7527', '0.7865', '0.8093', '0.7540']
+
+================================================================================
+Feature Importance Analysis
+================================================================================
+
+Random Forest Feature Importance:
+sentimentIntensity      0.305538
+procrastinationLevel    0.251971
+healthIndex             0.172010
+sleepHours              0.076047
+responseTime            0.060616
+lateCount               0.052510
+digitalInteraction      0.046689
+lmsAccess               0.023458
+accessTiming            0.011162
+dtype: float64
+
+Gradient Boosting Feature Importance:
+sentimentIntensity      0.285156
+procrastinationLevel    0.221546
+healthIndex             0.147518
+responseTime            0.093409
+sleepHours              0.082938
+digitalInteraction      0.079712
+lateCount               0.067211
+lmsAccess               0.016068
+accessTiming            0.006442
+dtype: float64
+
+================================================================================
+Generating Visualizations...
+================================================================================
+
+================================================================================
+All Visualizations Saved Successfully!
+================================================================================
+
+================================================================================
+Final Recommendation
+================================================================================
+
+✓ Best Overall Model: Gradient Boosting
+  - Test Accuracy: 0.7669
+
+✓ Recommendation: Use Gradient Boosting For Production Deployment
+✓ Key Improvements Applied:
+  1. SMOTE For Class Imbalance Handling
+  2. Ensemble Methods (Random Forest, Gradient Boosting, Voting)
+  3. Cross-Validation For Robust Evaluation
+  4. Comprehensive Metrics Beyond Accuracy
+  5. Feature Importance Analysis For Interpretability
+
+================================================================================
