@@ -1,3 +1,5 @@
+import sys
+import io
 import pandas as pd
 import numpy as np
 import re
@@ -12,6 +14,7 @@ from sklearn.preprocessing import StandardScaler
 from imblearn.over_sampling import SMOTE
 import warnings
 warnings.filterwarnings('ignore')
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 pd.set_option('display.max_columns', None)
 plt.style.use('seaborn-v0_8-whitegrid')
 filePath = "NCKH.csv"
@@ -148,7 +151,7 @@ print(f"  - Precision: {precision_score(yTestClass, yPredDtTest):.4f}")
 print(f"  - Recall: {recall_score(yTestClass, yPredDtTest):.4f}")
 print(f"  - F1-Score: {f1_score(yTestClass, yPredDtTest):.4f}")
 print(f"\nClassification Report (Test Set):")
-print(classification_report(yTestClass, yPredDtTest, target_names=['Bình Thường', 'Stress Cao']))
+print(classification_report(yTestClass, yPredDtTest, target_names=['Normal', 'High Stress']))
 print("\n" + "=" * 80)
 print("Phase 5: Handling Class Imbalance With SMOTE")
 print("=" * 80)
@@ -338,10 +341,11 @@ ax.set_ylim([0, 1.0])
 plt.tight_layout()
 plt.savefig('PrecisionRecallF1Comparison.png', dpi=300, bbox_inches='tight')
 plt.show()
-plt.figure(figsize=(20, 10))
+plt.figure(figsize=(80, 20))
 titleCaseFeatures = [re.sub(r'([a-z])([A-Z])', r'\1 \2', f).title() for f in features]
-plot_tree(dtModel, feature_names=titleCaseFeatures, class_names=['Bình Thường', 'Stress Cao'], filled=True, rounded=True, max_depth=3)
-plt.title("Decision Tree Visualization", fontsize=16, fontweight='bold')
+plot_tree(dtModel, feature_names=titleCaseFeatures, class_names=['Bình Thường', 'Stress Cao'], filled=True, rounded=True, precision=1, fontsize=8, impurity=False)
+plt.title("Decision Tree Visualization", fontsize=40, fontweight='bold')
+plt.subplots_adjust(left=0.01, right=0.99, top=0.95, bottom=0.05)
 plt.savefig('DecisionTree.png', dpi=300, bbox_inches='tight')
 plt.show()
 avgImportances = (rfImportances + gbImportances) / 2
