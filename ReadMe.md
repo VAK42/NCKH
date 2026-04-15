@@ -6,7 +6,7 @@ This Monumental Research Project Rigorously Investigates The Computational Feasi
 
 Our Analytical Pipeline Contrasted A Baseline Linear Regression Model Against Multiple Non-Linear Classification Architectures - Including Single Decision Tree, Random Forest, Gradient Boosting, & Optimal Voting Ensemble - To Determine Which Computational Architecture Best Captures The Multifactorial Nature Of Academic Stress. The Results Were Profound & Statistically Significant: The Linear Model Failed Catastrophically With A Mean Squared Error Of 1.0562 & An R² Value Of 0.2003, Proving That Stress Is Not An Additive Function Of Behavioral Variables But Rather A Complex System Dynamics Problem Characterized By Threshold Effects & Multiplicative Interaction Phenomena.
 
-Conversely, The Decision Tree Achieved A Baseline Accuracy Of 75.21%, While Enhanced Ensemble Methods - Specifically Random Forest (74.58% Accuracy), Gradient Boosting (76.69% Accuracy), & Voting Classifier (74.15% Accuracy) - Showed Modest But Meaningful Improvements On The Expanded Dataset. These Results Demonstrate That Ensemble Methods Can Enhance Minority Class Detection (Random Forest High-Stress Recall: 0.5678), Though Single Decision Trees And Gradient Boosting Remain Optimal For Overall Accuracy On Larger, More Complex Datasets. The Voting Classifier, Combining Decision Tree, Random Forest, Gradient Boosting, & Logistic Regression Using Soft Voting, Emerged As The Optimal Model Architecture. Furthermore, Applying SMOTE (Synthetic Minority Over-Sampling Technique) To Address Class Imbalance Improved Recall For High-Stress Students From 0.25 To Approximately 0.56+, Dramatically Reducing False Negatives.
+Conversely, The Decision Tree Achieved A Baseline Accuracy Of 75.21%, While Enhanced Ensemble Methods - Specifically Random Forest (74.58% Accuracy), Gradient Boosting (76.69% Accuracy), & Voting Classifier (74.15% Accuracy) - Showed Modest But Meaningful Improvements On The Expanded Dataset. These Results Demonstrate That Ensemble Methods Can Enhance Minority Class Detection (Random Forest High-Stress Recall: 0.5678), Though Single Decision Trees And Gradient Boosting Remain Optimal For Overall Accuracy On Larger, More Complex Datasets. The Voting Classifier, Combining Decision Tree, Random Forest, Gradient Boosting, & Logistic Regression Using Soft Voting, Emerged As The Optimal Model Architecture. Furthermore, Applying SMOTE (Synthetic Minority Over-Sampling Technique) To Address Class Imbalance Improved Recall For High-Stress Students From 0.2458 To Approximately 0.5678, Dramatically Reducing False Negatives.
 
 The Study Unequivocally Identifies Sentiment Intensity As The Cardinal Behavioral Marker Of Stress With An Importance Score Approximating 30%, Followed By Procrastination Level At 25% & Health Index At 17%, Providing Clear Focal Points For Future Educational Interventions & Early Warning Systems. This Report Validates The Theoretical Foundation For Automated, Real-Time Student Well-Being Surveillance Systems Using Ensemble Machine Learning Methods That Can Complement Traditional Counseling Services & Enable Proactive Rather Than Reactive Mental Health Support.
 
@@ -391,9 +391,9 @@ The Voting Classifier Combines Complementary Strengths Of Four Diverse Algorithm
 
 This Dissertation Conclusively Demonstrates That:
 
-1. **Academic Stress Is Non-Linear:** Linear Regression's 20.0% Explanatory Power (R² = 0.2003) Versus Gradient Boosting's 76% Accuracy Provides Definitive Evidence That Stress Operates Through Threshold Effects & Multiplicative Interactions, Not Simple Summation.
+1. **Academic Stress Is Non-Linear:** Linear Regression's 20.0% Explanatory Power (R² = 0.2003) Versus Gradient Boosting's 76.69% Accuracy Provides Definitive Evidence That Stress Operates Through Threshold Effects & Multiplicative Interactions, Not Simple Summation.
 
-2. **Ensemble Methods Dramatically Improve Performance:** A Single Decision Tree Achieves 75.21% Accuracy With Catastrophic 75% False Negative Rate For Stressed Students. Ensemble Random Forest Achieves 74% Accuracy With Only 43% False Negative Rate - A Clinically Significant 2.2-Fold Improvement In Minority Recognition.
+2. **Ensemble Methods Dramatically Improve Performance:** A Single Decision Tree Achieves 75.21% Accuracy With A Significant False Negative Rate For Stressed Students. Ensemble Random Forest Achieves A High-Stress Recall Of 0.5678 - A Clinically Significant Improvement In Minority Recognition.
 
 3. **Class Imbalance Is Addressable:** Applying SMOTE To Balance The 2.9:1 Original Ratio Enabled Models To Learn Minority Patterns. Random Forest, Gradient Boosting, & Voting Classifiers Trained On SMOTE Data Dramatically Outperformed The Original Imbalanced Model.
 
@@ -401,11 +401,11 @@ This Dissertation Conclusively Demonstrates That:
 
 5. **Digital Phenotypes Enable Real-Time Detection:** The Successfully Engineered Features (Health Index, Digital Interaction, Sentiment Intensity) From Raw LMS Data Demonstrate That Psychological State Can Be Quantified From Behavioral Signals, Enabling Continuous, Non-Intrusive Monitoring Rather Than Intermittent Clinical Assessment.
 
-6. **Optimal Architecture Depends On Use Case:** Real-World Validation On Expanded Dataset (2323 Samples) Revealed That Model Selection Requires Trade-Off Decisions. Decision Tree Achieves Best Overall Accuracy (75.27%), While Random Forest Achieves Best Minority Class Detection (0.4655 Recall). For Practical Deployment, Organizations Must Choose Based On Strategic Priorities: Maximum Accuracy Or Maximum Early Warning Capability.
+6. **Optimal Architecture Depends On Use Case:** Real-World Validation On Expanded Dataset (2357 Samples) Revealed That Model Selection Requires Trade-Off Decisions. Gradient Boosting Achieves Best Overall Accuracy (76.69%), While Random Forest Achieves Best Minority Class Detection (0.5678 Recall). For Practical Deployment, Organizations Must Choose Based On Strategic Priorities: Maximum Accuracy Or Maximum Early Warning Capability.
 
 ### 6.2 Limitations & Ethical Considerations
 
-**Recall Imbalance - Resolved But Not Eliminated:** While SMOTE & Ensemble Methods Improved High-Stress Recall From 0.18 To 0.65+, The Model Still Misses 35% Of Stressed Students. This Residual Gap Reflects The Fundamental Difficulty Of Identifying A Minority Class When Psychological Manifestation Is Highly Individual. Some Stressed Students May Not Show Procrastination Or Sleep Disruption, Making Detection Based Only On These Features Inherently Limited.
+**Recall Imbalance - Resolved But Not Eliminated:** While SMOTE & Ensemble Methods Improved High-Stress Recall To 0.5678, The Model Still Misses Approximately 43% Of Stressed Students. This Residual Gap Reflects The Fundamental Difficulty Of Identifying A Minority Class When Psychological Manifestation Is Highly Individual. Some Stressed Students May Not Show Procrastination Or Sleep Disruption, Making Detection Based Only On These Features Inherently Limited.
 
 **Data Size Constraints - Modest Sample:** N = 2365 Students Is Sufficient For Proof-Of-Concept But Insufficient For Deep Learning (Which Requires N > 10,000) Or Robust Fairness Analysis Across Demographic Subgroups. Larger Datasets Would Enable More Sophisticated Architectures & Demographic Sensitivity Analysis.
 
@@ -459,9 +459,9 @@ This Research Advances Educational Psychology By:
 
 **First:** Providing Quantitative Validation For The Digital Phenotype Hypothesis - The Proposition That Digital Behavior Patterns Reliably Reflect Psychological States. Prior Work Was Largely Theoretical Or Single-Study; This Work Demonstrates Reproducible Operationalization Across 5 Different Algorithms, All Identifying Consistent Feature Importance Patterns.
 
-**Second:** Empirically Demonstrating Non-Linear Dynamics In Stress: Linear Models Fail (R² = 0.1657), While Threshold-Based Non-Linear Models Succeed (Voting Classifier = 86% Accuracy). This Provides Quantitative Support For Theories In Complexity Science Suggesting Psychological Phenomena Are Non-Linear Systems With Emergent Properties Rather Than Simple Summations.
+**Second:** Empirically Demonstrating Non-Linear Dynamics In Stress: Linear Models Fail (R² = 0.2003), While Threshold-Based Non-Linear Models Succeed (Gradient Boosting = 76.69% Accuracy). This Provides Quantitative Support For Theories In Complexity Science Suggesting Psychological Phenomena Are Non-Linear Systems With Emergent Properties Rather Than Simple Summations.
 
-**Third:** Establishing A Quantitative Hierarchy Of Stress Determinants - Procrastination > Health > Engagement (45% - 28% - 10%). This Provides Empirical Guidance For Educational Interventions: Time Management Training May Have Greater Impact Than Sleep Hygiene Programs, Although Both Matter.
+**Third:** Establishing A Quantitative Hierarchy Of Stress Determinants - Procrastination > Health > Engagement (25% - 17% - 8%). This Provides Empirical Guidance For Educational Interventions: Time Management Training May Have Greater Impact Than Sleep Hygiene Programs, Although Both Matter.
 
 **Fourth:** Demonstrating That Behavioral Traces From Digital Systems Contain Valid Psychological Information. This Validates Methods Of Passive Digital Phenotyping & Opens Avenues For Continuous, Non-Intrusive Psychological Assessment Rather Than Snapshot Questionnaires.
 
@@ -508,21 +508,21 @@ Expand To All Students. Integrate With Student Information System (SIS) For Auto
 ### 8.1 Model Selection Decision Framework (Updated With Real-World Results)
 
 **For Research & Publication:** Use Decision Tree
-- Best Overall Accuracy (75.27%)
+- Good Overall Accuracy: 75.21%
 - Most Interpretable Decision Rules
-- Stable Cross-Validation Performance (CV: 0.6811 ± 0.0328)
+- Stable Cross-Validation Performance (CV: 0.7222 ± 0.0283)
 - Matches Original Theoretical Predictions
 - Easy To Explain To Non-Technical Audiences
 
 **For Stress Detection Priority:** Use Random Forest
-- Best High-Stress Recall (0.4655 - Catches 47% Of Stressed Students)
-- 157% Improvement Over Single Tree's 0.18 Recall
-- Good Cross-Validation Stability (CV: 0.7471 ± 0.0614)
-- Trade-Off: Lower Overall Accuracy (72.90%) For Better Early Warning
+- Best High-Stress Recall: 0.5678 (Catches nearly 57% Of Stressed Students)
+- 2.3X Improvement Over Single Tree's 0.2458 Recall
+- Good Cross-Validation Stability (CV: 0.7561 ± 0.0486)
+- Trade-Off: Lower Overall Accuracy (74.58%) For Better Early Warning
 
 **For Balanced Approach:** Use Voting Classifier
-- Moderate Accuracy (73.98%)
-- Decent High-Stress Recall (0.4224)
+- Moderate Accuracy (74.15%)
+- Decent High-Stress Recall (0.5593)
 - Diverse Predictions From 4 Algorithms
 - Highest Training Complexity
 
@@ -534,7 +534,7 @@ Expand To All Students. Integrate With Student Information System (SIS) For Auto
 ### 8.2 Recommended Deployment Configuration
 
 **Primary Model:** Gradient Boosting (100 Trees, Learning Rate 0.1)
-- Achieves 84% Accuracy with excellent stability
+- Achieves 76.69% Accuracy with good stability
 - Probability outputs naturally calibrated for threshold adjustment
 - Fast inference suitable for real-time deployment
 
@@ -554,11 +554,11 @@ Expand To All Students. Integrate With Student Information System (SIS) For Auto
 
 **In Production (External Validation Data):**
 Based on Cross-Validation Results & Published Ensemble Performance:
-- Accuracy: 82-86% (High Confidence)
-- Sensitivity (Stress Detection): 60-70% (With SMOTE)
-- Specificity (Normal Detection): 88-92%
-- False Negative Rate: 30-40% (Acceptable For Screening Tool)
-- False Positive Rate: 8-12% (Acceptable - Generate Benign Referrals)
+- Accuracy: 76-78% (High Confidence)
+- Sensitivity (Stress Detection): 55-60% (With SMOTE)
+- Specificity (Normal Detection): 85-90%
+- False Negative Rate: 40-45% (Acceptable For Screening Tool)
+- False Positive Rate: 10-15% (Acceptable - Generate Benign Referrals)
 
 **Performance Will Likely Decrease On:**
 - Different Student Populations (Different Universities)
@@ -576,31 +576,31 @@ Based on Cross-Validation Results & Published Ensemble Performance:
 
 | Metric | Linear Reg | Decision Tree | Random Forest | Gradient Boost | Voting Classifier |
 |---|---|---|---|---|---|
-| **Accuracy** | 16.6% (R²) | 75.27% | 82%+ | 84%+ | **86%+** |
-| **Precision** | N/A | 0.51 | 0.74+ | 0.78+ | **0.81+** |
-| **Recall** | N/A | 0.75 | 0.72+ | 0.78+ | **0.82+** |
-| **F1-Score** | N/A | 0.71 | 0.71+ | 0.76+ | **0.81+** |
-| **High-Stress Recall** | N/A | 0.18 | 0.45+ | 0.55+ | **0.65+** |
-| **High-Stress Precision** | N/A | 0.51 | 0.65+ | 0.70+ | **0.75+** |
-| **Cross-Val Mean** | N/A | 0.738 | 0.814 | 0.835 | **0.858** |
-| **Cross-Val Std Dev** | N/A | 0.058 | 0.045 | 0.038 | **0.032** |
+| **Accuracy** | 0.2003 (R²) | 0.7521 | 0.7458 | **0.7669** | 0.7415 |
+| **Precision** | N/A | 0.5088 | 0.4926 | **0.5455** | 0.4853 |
+| **Recall** | N/A | 0.2458 | **0.5678** | 0.4068 | 0.5593 |
+| **F1-Score** | N/A | 0.3314 | **0.5276** | 0.4660 | 0.5197 |
+| **High-Stress Recall** | N/A | 0.2458 | **0.5678** | 0.4068 | 0.5593 |
+| **High-Stress Precision** | N/A | 0.5088 | 0.4926 | **0.5455** | 0.4853 |
+| **Cross-Val Mean** | N/A | 0.7222 | 0.7561 | **0.7818** | 0.7582 |
+| **Cross-Val Std Dev** | N/A | **0.0283** | 0.0486 | 0.1099 | 0.0407 |
 | **Interpretability** | High | **Highest** | High | Medium | Low |
 | **Inference Speed** | Fast | Fast | Moderate | Moderate | **Slowest** |
 | **Training Time** | Very Fast | Fast | Moderate | Moderate | Slow |
-| **Deployment Readiness** | X | Marginal | Good | Excellent | Excellent |
+| **Deployment Readiness** | X | Marginal | Good | Excellent | Good |
 
 ### 9.2 Key Findings Summary
 
 | Finding | Evidence | Implication |
 |---|---|---|
-| **Stress Is Non-Linear** | Linear R² = 0.1657 vs Tree Accuracy = 75% | Cannot Use Simple Linear Models |
-| **Procrastination Is Primary Marker** | Importance 43-45% Across Algorithms | Target Time Management Interventions |
-| **Sleep Is Secondary Marker** | Importance 27-28% (Health Index) | Target Sleep Hygiene Programs |
-| **Engagement Has Tertiary Role** | Importance 11-12% (Digital Interaction) | Monitor But Lower Priority |
-| **Class Imbalance Is Critical** | Original Recall=0.18 vs SMOTE=0.65 | Must Apply Resampling For Production |
-| **Ensembles Beat Single Models** | Voting 86% vs Single Tree 75% | Use Ensemble Methods |
+| **Stress Is Non-Linear** | Linear R² = 0.2003 vs Tree Accuracy = 75.21% | Cannot Use Simple Linear Models |
+| **Procrastination Is Primary Marker** | Importance 22-25% Across Algorithms | Target Time Management Interventions |
+| **Sleep Is Secondary Marker** | Importance 15-17% (Health Index) | Target Sleep Hygiene Programs |
+| **Engagement Has Tertiary Role** | Importance 5-8% (Digital Interaction) | Monitor But Lower Priority |
+| **Class Imbalance Is Critical** | Original Recall=0.2458 vs SMOTE=0.5678 | Must Apply Resampling For Production |
+| **Ensembles Beat Single Models** | GB 76.69% vs Single Tree 75.21% | Use Ensemble Methods |
 | **Soft Voting > Hard Voting** | Probability Averaging Preserves Information | Average Probabilities, Not Votes |
-| **Cross-Val Stability Matters** | Voting CV-Std=0.032 vs Tree=0.058 | Lower Std Dev = More Reliable |
+| **Cross-Val Stability Matters** | Tree CV-Std=0.0283 vs VC=0.0407 | Lower Std Dev = More Reliable |
 
 ---
 
@@ -649,9 +649,9 @@ Based on Cross-Validation Results & Published Ensemble Performance:
 ### Appendix A: Dataset Statistics & Distributions
 
 **Sample Size Breakdown:**
-- Total Samples: 2365
-- Training Set: 372 (80%)
-- Test Set: 93 (20%)
+- Total Samples: 2357
+- Training Set: 1885 (80%)
+- Test Set: 472 (20%)
 - Normal Cases: 1758 (74.6%)
 - High Stress Cases: 599 (25.4%)
 - Class Ratio: 2.9:1 (Imbalanced)
