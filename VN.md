@@ -407,7 +407,7 @@ Nghiên Cứu Này Khẳng Định Một Cách Thuyết Phục Rằng:
 
 **Mất Cân Bằng Độ Triệu Hồi - Được Giải Quyết Nhưng Chưa Loại Bỏ:** Trong Khi SMOTE & Các Phương Pháp Tổ Hợp Đã Gia Tăng Độ Triệu Hồi Căng Thẳng Cao Lên 0.5678, Mô Hình Vẫn Bỏ Sót Khoảng 43% Sinh Viên Căng Thẳng. Hạn Chế Này Phản Ánh Thách Thức Trong Việc Nhận Diện Nhóm Đối Tượng Thiểu Số Khi Các Biểu Hiện Tâm Lý Thường Mang Tính Đặc Thù Và Cá Nhân Hóa Cao. Một Số Sinh Viên Căng Thẳng Có Thể Không Thể Hiện Sự Trì Hoãn Hay Rối Loạn Giấc Ngủ, Làm Cho Việc Phát Hiện Chỉ Dựa Trên Những Đặc Trưng Này Vốn Dĩ Bị Hạn Chế.
 
-**Ràng Buộc Kích Thước Dữ Liệu - Quy Mô Mẫu Vừa Phải:** N = 2365 Sinh Viên Là Đủ Để Chứng Minh Khái Niệm Nhưng Chưa Đủ Cho Học Sâu (Đòi Hỏi N > 10,000) Hoặc Phân Tích Tính Công Bằng Mạnh Mẽ Trên Các Phân Nhóm Nhân Khẩu Học. Việc Mở Rộng Tập Dữ Liệu Sẽ Tạo Điều Kiện Để Áp Dụng Các Kiến Trúc Mô Hình Phức Tạp Hơn Đồng Thời Phân Tích Sâu Sắc Độ Nhạy Nhân Khẩu Học.
+**Ràng Buộc Kích Thước Dữ Liệu - Quy Mô Mẫu Vừa Phải:** N = 2357 Sinh Viên Là Đủ Để Chứng Minh Khái Niệm Nhưng Chưa Đủ Cho Học Sâu (Đòi Hỏi N > 10,000) Hoặc Phân Tích Tính Công Bằng Mạnh Mẽ Trên Các Phân Nhóm Nhân Khẩu Học. Việc Mở Rộng Tập Dữ Liệu Sẽ Tạo Điều Kiện Để Áp Dụng Các Kiến Trúc Mô Hình Phức Tạp Hơn Đồng Thời Phân Tích Sâu Sắc Độ Nhạy Nhân Khẩu Học.
 
 **Dữ Liệu Thu Thập Từ Một Cơ Sở Đào Tạo - Khả Năng Tổng Quát Hóa Chưa Biết:** Kết Quả Từ Một Trường Đại Học Có Thể Chưa Phản Ánh Được Đặc Thù Của Các Loại Hình Giáo Dục Khác Như Cao Đẳng Cộng Đồng, Các Chương Trình Trực Tuyến, Hoặc Các Tổ Chức Quốc Tế Với Các Nền Văn Hóa, Cấu Trúc Học Thuật, & Hệ Thống Hỗ Trợ Khác Nhau. Việc Xác Thực Đa Cơ Sở Vẫn Là Cần Thiết Trước Khi Triển Khai Rộng Rãi.
 
@@ -527,21 +527,21 @@ Mở Rộng Cho Tất Cả Sinh Viên. Tích Hợp Với Hệ Thống Thông Tin
 - Độ Phức Tạp Huấn Luyện Cao Nhất
 
 **Hạn Chế Khuyến Nghị Triển Khai Thực Tế:** Tăng Cường Gradient
-- Độ Triệu Hồi Thấp Hơn Cho Sinh Viên Căng Thẳng (0.3362)
-- Biến Thiên Kiểm Định Chéo Cao (0.1206)
+- Độ Triệu Hồi Thấp Hơn Cho Sinh Viên Căng Thẳng (0.4068)
+- Biến Thiên Kiểm Định Chéo Cao (0.1099)
 - Hiệu Suất Không Nhất Quán Giữa Các Lần Chạy
 
 ### 8.2 Cấu Hình Triển Khai Được Đề Xuất
 
-**Mô Hình Chính:** Tăng Cường Gradient (100 Cây, Tốc Độ Học 0.1)
-- Đạt Độ Chính Xác 76.69% Với Tính Ổn Định Tốt
-- Cung Cấp Đầu Ra Xác Suất Có Tính Hiệu Chuẩn Tự Nhiên, Hỗ Trợ Việc Điều Chỉnh Ngưỡng Quyết Định
-- Tốc Độ Suy Luận Nhanh Phù Hợp Cho Triển Khai Thời Gian Thực
+**Mô Hình Chính:** Bộ Phân Loại Bỏ Phiếu (Tổ Hợp Bỏ Phiếu Mềm)
+- Đạt Được Độ Chính Xác Có Độ Ổn Định Rất Cao (Kiểm Định Chéo: 0.7582 ± 0.0407) Và Khả Năng Triệu Hồi Sinh Viên Căng Thẳng Cao (0.5593)
+- Đầu Ra Xác Suất Bỏ Phiếu Mềm Bảo Tồn Sự Sắc Thái Từ 4 Thuật Toán Đa Dạng, Phù Hợp Cho Việc Điều Chỉnh Ngưỡng
+- Thể Hiện Phương Sai Tổng Quát Hóa Thấp Nhất, Giúp Mô Hình Đáng Tin Cậy Nhất Khi Áp Dụng Trên Dữ Liệu Thế Giới Thực
 
-**Mô Hình Dự Phòng/Xác Thực:** Bộ Phân Loại Bỏ Phiếu (Để Kiểm Tra Chéo)
-- Trong Trường Hợp Có Sự Sai Khác Giữa Kết Quả Của Mô Hình Tăng Cường Gradient Và Bộ Phân Loại Bỏ Phiếu, Cần Gắn Cờ Để Chuyên Viên Xem Xét Thủ Công
-- Sự Không Đồng Thuận Của Tổ Hợp Thường Chỉ Ra Các Trường Hợp Cận Biên Đáng Được Chuyên Viên Tư Vấn Đánh Giá
-- Sự Không Đồng Thuận Hiếm Gặp Có Thế Kích Hoạt Thu Thập Dữ Liệu Bổ Sung
+**Mô Hình Dự Phòng/Xác Thực:** Tăng Cường Gradient (Để Kiểm Tra Chéo)
+- Mặc Dù Có Phương Sai Cao Hơn, Tính Chính Xác Tổng Thể 76.69% Của Nó Hữu Ích Làm Tiêu Chuẩn Tham Chiếu
+- Trong Trường Hợp Có Sự Sai Khác Giữa Báo Cáo Của Bộ Phân Loại Bỏ Phiếu Và Tăng Cường Gradient, Cần Gắn Cờ Để Chuyên Viên Xem Xét
+- Sự Không Đồng Thuận Của Tổ Hợp Thường Chỉ Ra Các Trường Hợp Cận Biên Đáng Được Đánh Giá
 
 **Ngưỡng Quyết Định:**
 - Xác Suất > 0.70: Nguy Cơ Cao - Chuyển Tuyến Tư Vấn Ngay Lập Tức
@@ -714,11 +714,11 @@ Dựa Trên Kết Quả Kiểm Định Chéo & Hiệu Suất Tổ Hợp Đã Cô
 
 Nghiên Cứu Này Chứng Minh Rằng Việc Ứng Dụng Thuật Toán Phân Tích Căng Thẳng Học Đường Thông Qua Các Kiểu Hình Kỹ Thuật Số Không Chỉ Có Cơ Sở Lý Thuyết Mà Còn Có Thể Đạt Được Về Mặt Thực Tế Với Các Kết Quả Hiện Đại:
 
-**Được Xác Thực Khoa Học:** Nhiều Cuộc Xác Thực Độc Lập Cho Thấy Các Kết Quả Nhất Quán - Các Phương Pháp Tuyến Tính Kém Hiệu Quả (R² = 0.1657), Trong Khi Các Phương Pháp Tổ Hợp Thành Công (Độ Chính Xác 86%, Độ Triệu Hồi 0.65+ Cho Sinh Viên Căng Thẳng).
+**Được Xác Thực Khoa Học:** Nhiều Cuộc Xác Thực Độc Lập Cho Thấy Các Kết Quả Nhất Quán - Các Phương Pháp Tuyến Tính Kém Hiệu Quả (R² = 0.2003), Trong Khi Các Phương Pháp Tổ Hợp Thành Công (Độ Chính Xác 76.69%, Độ Triệu Hồi 0.56+ Cho Sinh Viên Căng Thẳng).
 
 **Khả Thi Về Kỹ Thuật:** Toàn Bộ Quy Trình - Làm Sạch Dữ Liệu, Xây Dựng Đặc Trưng, Lấy Mẫu Lại SMOTE, Bỏ Phiếu Tổ Hợp - Có Thể Triển Khai Trong Các Thư Viện Python Tiên Tiến Mà Không Đòi Hỏi Các Hệ Thống Hạ Tầng Phức Tạp.
 
-**Có Ý Nghĩa Lâm Sàng:** Mức Cải Thiện Gấp 3.6 Lần Trong Việc Nhận Diện Sinh Viên Căng Thẳng (0.18 → 0.65) & Cải Thiện Độ Chính Xác 5.2 Lần So Với Cơ Sở Tuyến Tính (16.6% → 86%) Đại Diện Cho Những Bước Tiến Thực Tế Đáng Kể Có Thể Chuyển Đổi Sự Hỗ Trợ Sinh Viên.
+**Có Ý Nghĩa Lâm Sàng:** Mức Cải Thiện Gấp 2.3 Lần Trong Việc Nhận Diện Sinh Viên Căng Thẳng (0.25 → 0.57) & Cải Thiện Sức Mạnh Giải Thích Gấp 3.7 Lần So Với Cơ Sở Tuyến Tính (20.0% → 74.15%) Đại Diện Cho Những Bước Tiến Thực Tế Đáng Kể Có Thể Chuyển Đổi Sự Hỗ Trợ Sinh Viên.
 
 **Có Nền Tảng Đạo Đức:** Chúng Tôi Trình Bày Rõ Ràng Các Hạn Chế, Các Tác Hại Tiềm Tàng, Các Chiến Lược Giảm Thiểu, & Các Khung Quản Trị Cho Việc Triển Khai Có Trách Nhiệm.
 

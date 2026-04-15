@@ -407,7 +407,7 @@ This Dissertation Conclusively Demonstrates That:
 
 **Recall Imbalance - Resolved But Not Eliminated:** While SMOTE & Ensemble Methods Improved High-Stress Recall To 0.5678, The Model Still Misses Approximately 43% Of Stressed Students. This Residual Gap Reflects The Fundamental Difficulty Of Identifying A Minority Class When Psychological Manifestation Is Highly Individual. Some Stressed Students May Not Show Procrastination Or Sleep Disruption, Making Detection Based Only On These Features Inherently Limited.
 
-**Data Size Constraints - Modest Sample:** N = 2365 Students Is Sufficient For Proof-Of-Concept But Insufficient For Deep Learning (Which Requires N > 10,000) Or Robust Fairness Analysis Across Demographic Subgroups. Larger Datasets Would Enable More Sophisticated Architectures & Demographic Sensitivity Analysis.
+**Data Size Constraints - Modest Sample:** N = 2357 Students Is Sufficient For Proof-Of-Concept But Insufficient For Deep Learning (Which Requires N > 10,000) Or Robust Fairness Analysis Across Demographic Subgroups. Larger Datasets Would Enable More Sophisticated Architectures & Demographic Sensitivity Analysis.
 
 **Single Institution Data - Generalization Unknown:** Results From One University May Not Generalize To Community Colleges, Online Programs, Or International Institutions With Different Cultures, Academic Structures, & Support Systems. Cross-Institutional Validation Remains Essential Before Widespread Deployment.
 
@@ -527,21 +527,21 @@ Expand To All Students. Integrate With Student Information System (SIS) For Auto
 - Highest Training Complexity
 
 **NOT Recommended For Production:** Gradient Boosting
-- Lower Recall For Stressed Students (0.3362)
-- High Cross-Validation Variance (0.1206)
+- Lower Recall For Stressed Students (0.4068)
+- High Cross-Validation Variance (0.1099)
 - Inconsistent Performance Across Folds
 
 ### 8.2 Recommended Deployment Configuration
 
-**Primary Model:** Gradient Boosting (100 Trees, Learning Rate 0.1)
-- Achieves 76.69% Accuracy with good stability
-- Probability outputs naturally calibrated for threshold adjustment
-- Fast inference suitable for real-time deployment
+**Primary Model:** Voting Classifier (Soft Voting Ensemble)
+- Achieves Highly Stable Accuracy (CV: 0.7582 ± 0.0407) And Strong High-Stress Recall (0.5593)
+- Soft Voting Probability Outputs Preserve Nuance From 4 Diverse Algorithms, Enabling Finer Threshold Adjustment
+- Demonstrates The Lowest Generalization Variance, Making It The Most Robust For Real-World Unseen Data
 
-**Backup/Validation Model:** Voting Classifier (For Cross-Checking)
-- When Gradient Boosting & Voting Classifier Disagree, Flag For Manual Review
-- Ensemble disagreement often indicates borderline cases deserving counselor judgment
-- Rare disagreements can trigger additional data collection
+**Backup/Validation Model:** Gradient Boosting (For Cross-Checking)
+- Despite Higher Variance, Its 76.69% Overall Accuracy Is Useful For Benchmarking
+- When Voting Classifier & Gradient Boosting Disagree, Flag For Manual Review
+- Ensemble Disagreement Often Indicates Borderline Cases Deserving Counselor Judgment
 
 **Decision Thresholds:**
 - Probability > 0.70: High Risk - Immediate Counselor Referral
@@ -712,11 +712,11 @@ Based on Cross-Validation Results & Published Ensemble Performance:
 
 This Dissertation Demonstrates That Algorithmic Detection Of Academic Stress Through Digital Phenotypes Is Not Merely Theoretically Sound But Practically Achievable With State-Of-The-Art Results:
 
-**Scientifically Validated:** Multiple Independent Validations Show Consistent Results - Linear Methods Fail (R² = 0.1657), While Ensemble Methods Succeed (86% Accuracy, 0.65+ Recall For Stressed Students).
+**Scientifically Validated:** Multiple Independent Validations Show Consistent Results - Linear Methods Fail (R² = 0.2003), While Ensemble Methods Succeed (76.69% Accuracy, 0.56+ Recall For Stressed Students).
 
 **Technically Feasible:** The Complete Pipeline - Data Cleaning, Feature Engineering, SMOTE Resampling, Ensemble Voting - Is Implementable In Standard Python Libraries Without Specialized Infrastructure.
 
-**Clinically Relevant:** The 3.6-Fold Improvement In Stressed Student Detection (0.18 → 0.65) & 5.2-Fold Accuracy Improvement Over Linear Baseline (16.6% → 86%) Represent Substantial Practical Gains That Could Transform Student Support.
+**Clinically Relevant:** The 2.3-Fold Improvement In Stressed Student Detection (0.25 → 0.57) & 3.7-Fold Explanatory Power Improvement Over Linear Baseline (20.0% → 74.15%) Represent Substantial Practical Gains That Could Transform Student Support.
 
 **Ethically Grounded:** We Present Clear Limitations, Potential Harms, Mitigation Strategies, & Governance Frameworks For Responsible Deployment.
 
