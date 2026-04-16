@@ -13,6 +13,7 @@ from sklearn.metrics import (mean_squared_error, r2_score, accuracy_score, class
 from sklearn.preprocessing import StandardScaler
 from imblearn.over_sampling import SMOTE
 import warnings
+import joblib
 warnings.filterwarnings('ignore')
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 pd.set_option('display.max_columns', None)
@@ -374,6 +375,10 @@ bestModel = max([('Decision Tree', accDtTest), ('Random Forest', accRfTest),
                 key=lambda x: x[1])
 print(f"\n✓ Best Overall Model: {bestModel[0]}")
 print(f"  - Test Accuracy: {bestModel[1]:.4f}")
+model = {'Decision Tree': dtModel, 'Random Forest': rfModel, 'Gradient Boosting': gbModel, 'Voting Classifier': votingModel}
+joblib.dump(model[bestModel[0]], 'model.pkl')
+joblib.dump(scaler, 'scaler.pkl')
+print(f"✓ Model & Scaler Exported Successfully To 'model.pkl' & 'scaler.pkl'")
 print(f"\n✓ Recommendation: Use {bestModel[0]} For Production Deployment")
 print(f"✓ Key Improvements Applied:")
 print(f"  1. SMOTE For Class Imbalance Handling")
