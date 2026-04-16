@@ -95,6 +95,7 @@ dfClean['healthIndex'] = dfClean['sleepHours'] * dfClean['sleepQuality']
 dfClean['digitalInteraction'] = dfClean['lmsAccess'] * dfClean['interactionScore']
 features = ['responseTime', 'lateCount', 'lmsAccess', 'accessTiming', 'sentimentIntensity', 'sleepHours', 'procrastinationLevel', 'healthIndex', 'digitalInteraction']
 target = 'stressScore'
+feat_map = {f: re.sub(r'([a-z])([A-Z])', r'\1 \2', f).title() for f in features + [target]}
 dfFinal = dfClean.dropna(subset=features + [target])
 x = dfFinal[features]
 y = dfFinal[target]
@@ -270,16 +271,16 @@ print("\n" + "=" * 80)
 print("Feature Importance Analysis")
 print("=" * 80)
 print("\nRandom Forest Feature Importance:")
-rfImportances = pd.Series(rfModel.feature_importances_, index=features).sort_values(ascending=False)
+rfImportances = pd.Series(rfModel.feature_importances_, index=[feat_map[f] for f in features]).sort_values(ascending=False)
 print(rfImportances)
 print("\nGradient Boosting Feature Importance:")
-gbImportances = pd.Series(gbModel.feature_importances_, index=features).sort_values(ascending=False)
+gbImportances = pd.Series(gbModel.feature_importances_, index=[feat_map[f] for f in features]).sort_values(ascending=False)
 print(gbImportances)
 print("\n" + "=" * 80)
 print("Generating Visualizations...")
 print("=" * 80)
 plt.figure(figsize=(12, 10))
-sns.heatmap(dfFinal[features + [target]].corr(), annot=True, cmap='coolwarm', fmt=".2f", square=True,
+sns.heatmap(dfFinal[features + [target]].rename(columns=feat_map).corr(), annot=True, cmap='coolwarm', fmt=".2f", square=True,
             cbar_kws={"shrink": 0.8})
 plt.title("Ma Trận Tương Quan (Correlation Matrix)", fontsize=14, fontweight='bold')
 plt.tight_layout()
@@ -301,19 +302,17 @@ plt.tight_layout()
 plt.savefig('ModelAccuracyComparison.png', dpi=300, bbox_inches='tight')
 plt.show()
 fig, axes = plt.subplots(2, 2, figsize=(20, 16))
-dtImportances = pd.Series(dtModel.feature_importances_, index=features).sort_values()
-dtImportances.index = [re.sub(r'([a-z])([A-Z])', r'\1 \2', f).title() for f in dtImportances.index]
+dtImportances = pd.Series(dtModel.feature_importances_, index=[feat_map[f] for f in features]).sort_values()
 dtImportances.plot(kind='barh', ax=axes[0, 0], color='lightseagreen')
 axes[0, 0].set_title('Decision Tree Importance', fontsize=16, fontweight='bold', pad=20)
-rfImportancesFormatted = rfImportances.sort_values()
+rfImportancesFormatted = pd.Series(rfModel.feature_importances_, index=[feat_map[f] for f in features]).sort_values()
 rfImportancesFormatted.plot(kind='barh', ax=axes[0, 1], color='steelblue')
 axes[0, 1].set_title('Random Forest Importance', fontsize=16, fontweight='bold', pad=20)
-gbImportancesFormatted = gbImportances.sort_values()
+gbImportancesFormatted = pd.Series(gbModel.feature_importances_, index=[feat_map[f] for f in features]).sort_values()
 gbImportancesFormatted.plot(kind='barh', ax=axes[1, 0], color='coral')
 axes[1, 0].set_title('Gradient Boosting Importance', fontsize=16, fontweight='bold', pad=20)
 avgVotingImportance = (dtModel.feature_importances_ + rfModel.feature_importances_ + gbModel.feature_importances_) / 3
-voteImportances = pd.Series(avgVotingImportance, index=features).sort_values()
-voteImportances.index = [re.sub(r'([a-z])([A-Z])', r'\1 \2', f).title() for f in voteImportances.index]
+voteImportances = pd.Series(avgVotingImportance, index=[feat_map[f] for f in features]).sort_values()
 voteImportances.plot(kind='barh', ax=axes[1, 1], color='mediumpurple')
 axes[1, 1].set_title('Voting Classifier Importance', fontsize=16, fontweight='bold', pad=20)
 for ax in axes.flat:
@@ -351,15 +350,14 @@ plt.tight_layout()
 plt.savefig('PrecisionRecallF1Comparison.png', dpi=300, bbox_inches='tight')
 plt.show()
 plt.figure(figsize=(80, 20))
-titleCaseFeatures = [re.sub(r'([a-z])([A-Z])', r'\1 \2', f).title() for f in features]
-plot_tree(dtModel, feature_names=titleCaseFeatures, class_names=['Bình Thường', 'Stress Cao'], filled=True, rounded=True, precision=1, fontsize=8, impurity=False)
+plot_tree(dtModel, feature_names=[feat_map[f] for f in features], class_names=['Bình Thường', 'Stress Cao'], filled=True, rounded=True, precision=1, fontsize=8, impurity=False)
 plt.title("Decision Tree Visualization", fontsize=40, fontweight='bold')
 plt.subplots_adjust(left=0.01, right=0.99, top=0.75, bottom=0.05)
 plt.savefig('DecisionTree.png', dpi=300)
 plt.show()
 avgImportances = (rfImportances + gbImportances) / 2
 plt.figure(figsize=(10, 6))
-pd.Series(avgImportances.values, index=titleCaseFeatures).sort_values().plot(kind='barh', color='purple')
+avgImportances.sort_values().plot(kind='barh', color='purple')
 plt.title('Average Feature Importance Score', fontsize=14, fontweight='bold')
 plt.xlabel('Importance Score')
 plt.tight_layout()
